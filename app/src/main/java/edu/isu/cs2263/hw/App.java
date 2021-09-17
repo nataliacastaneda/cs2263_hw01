@@ -7,88 +7,14 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 
-import static edu.isu.cs2263.hw.BatchFile_Reader.readBatch;
-import static edu.isu.cs2263.hw.Evaluate_Expressions.eval_math_exp;
+import static edu.isu.cs2263.hw.CLI.cli_options;
 
 public class App {
 
     File file = new File("");
 
     public static void main(String[] args) {
-
-        //create options object
-        Options options = new Options();
-
-        //add -h, --help -> prints help/usage message
-        options.addOption("h", "help", false, "print usage message");
-        //add -b <file>, --batch <file> -> processes provided file rather than standard input file
-        Option batch = Option.builder("b").longOpt("batch")
-                .argName("file")
-                .hasArg(true)
-                .required(false)
-                .desc("batch file containing expressions to evaluate").build();
-        //add -o <file>, --output <file> -> sends the output to the provided file and standard output
-        Option output = Option.builder("o").longOpt("output")
-                .argName("file")
-                .hasArg(true)
-                .required(false)
-                .desc("output file").build();
-
-        options.addOption(batch);
-        options.addOption(output);
-
-        //create the parser
-        CommandLineParser parser = new DefaultParser();
-
-        try {
-            //parse the command line arguments
-            CommandLine cmd = parser.parse(options, args);
-            //check for options
-            if (cmd.hasOption("h")) {
-                //print help/usage message
-                HelpFormatter formatter = new HelpFormatter();
-                System.out.println("Evaluation of simple mathematical Expressions");
-                formatter.printHelp("eval", options, true);
-            }
-            if (cmd.hasOption("b")) {
-                File file = new File(cmd.getOptionValue("b"));
-                //get file name
-                String lib = cmd.getOptionValue("b");
-                //process provided file
-                System.out.println("Batch value: " + lib);
-
-                //read the batch file and perform the evaluation(s)
-                readBatch(file);
-                //exit the program
-                System.exit(0);
-
-            }
-            if (cmd.hasOption("o")) {
-                //get file name
-                String lib = cmd.getOptionValue("o");
-                //send output to provided file and standard output
-                System.out.println("Output value: " + lib);
-                //exit the program
-                System.exit(0);
-            }
-            else{
-                //if a string is input directly into the command line, evaluate it
-                int i = 0;
-                //loop across length of command line input
-                while (i < args.length){
-                    //get the expression from the command line
-                    String expression = args[i];
-                    //evaluate the expression with the method
-                    System.out.println(eval_math_exp(expression));
-                    //increment up
-                    i++;
-                }
-                //exit the program
-                System.exit(0);
-            }
-        } catch (ParseException exp) {
-            //oops, something went wrong
-            System.err.println("Parsing failed. Reason: " + exp.getMessage());
-        }
+    //call cli_options to initiate project
+        cli_options(args);
     }
 }
