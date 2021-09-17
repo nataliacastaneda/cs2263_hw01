@@ -7,11 +7,14 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 
+import static edu.isu.cs2263.hw.BatchFile_Reader.readBatch;
+import static edu.isu.cs2263.hw.Evaluate_Expressions.eval_math_exp;
+
 public class App {
 
-    public static void main(String[] args) {
+    File file = new File("");
 
-        File file = new File("");
+    public static void main(String[] args) {
 
         //create options object
         Options options = new Options();
@@ -48,10 +51,16 @@ public class App {
                 formatter.printHelp("eval", options, true);
             }
             if (cmd.hasOption("b")) {
+                File file = new File(cmd.getOptionValue("b"));
                 //get file name
                 String lib = cmd.getOptionValue("b");
                 //process provided file
                 System.out.println("Batch value: " + lib);
+
+                //read the batch file and perform the evaluation(s)
+                readBatch(file);
+                //exit the program
+                System.exit(0);
 
             }
             if (cmd.hasOption("o")) {
@@ -59,6 +68,23 @@ public class App {
                 String lib = cmd.getOptionValue("o");
                 //send output to provided file and standard output
                 System.out.println("Output value: " + lib);
+                //exit the program
+                System.exit(0);
+            }
+            else{
+                //if a string is input directly into the command line, evaluate it
+                int i = 0;
+                //loop across length of command line input
+                while (i < args.length){
+                    //get the expression from the command line
+                    String expression = args[i];
+                    //evaluate the expression with the method
+                    System.out.println(eval_math_exp(expression));
+                    //increment up
+                    i++;
+                }
+                //exit the program
+                System.exit(0);
             }
         } catch (ParseException exp) {
             //oops, something went wrong
