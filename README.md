@@ -1,4 +1,4 @@
-# cs2263_hw
+# cs2263_hw01
 Project Name: CS 2263 Homework 1
 
 Description: This project takes a mathematical expression or file containing expressions from the user and evaluates that expression (ignoring the order of operations).
