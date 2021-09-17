@@ -18,3 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -Updated App.java to accept standard input (on the command line) and it to expressions to be evaluated
 -Added Batch_Reader.java to read files with batchs of expressions to be evaluated. Each line contains a single expression
 -Added print statements to App.java to output result to standard output (in the terminal)
+
+## [1.2.0] - 2021-09-17
+-Separated main from App.java into two separate classes, CLI.java and User_Input.java
+-Added OutputFile_Location.java to write expressions and results into an given output file
+-Changed main of App.java to only call cli_options method from CLI.java
+
