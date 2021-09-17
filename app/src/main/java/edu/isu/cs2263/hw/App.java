@@ -5,22 +5,38 @@ package edu.isu.cs2263.hw;
 
 import org.apache.commons.cli.*;
 
+import java.io.File;
+
 public class App {
 
     public static void main(String[] args) {
+
+        File file = new File("");
 
         //create options object
         Options options = new Options();
 
         //add -h, --help -> prints help/usage message
-        options.addOption("h","help",false,"print usage message");
+        options.addOption("h", "help", false, "print usage message");
         //add -b <file>, --batch <file> -> processes provided file rather than standard input file
-        options.addOption("b", "batch",true,"batch file containing expressions to evaluate");
+        Option batch = Option.builder("b").longOpt("batch")
+                .argName("file")
+                .hasArg(true)
+                .required(false)
+                .desc("batch file containing expressions to evaluate").build();
         //add -o <file>, --output <file> -> sends the output to the provided file and standard output
-        options.addOption("o", "output",true,"output file");
+        Option output = Option.builder("o").longOpt("output")
+                .argName("file")
+                .hasArg(true)
+                .required(false)
+                .desc("output file").build();
+
+        options.addOption(batch);
+        options.addOption(output);
 
         //create the parser
         CommandLineParser parser = new DefaultParser();
+
         try {
             //parse the command line arguments
             CommandLine cmd = parser.parse(options, args);
@@ -28,19 +44,23 @@ public class App {
             if (cmd.hasOption("h")) {
                 //print help/usage message
                 HelpFormatter formatter = new HelpFormatter();
+                System.out.println("Evaluation of simple mathematical Expressions");
                 formatter.printHelp("eval", options, true);
             }
             if (cmd.hasOption("b")) {
                 //get file name
-                System.out.println("Batch value: " + args[0]);
+                String lib = cmd.getOptionValue("b");
                 //process provided file
+                System.out.println("Batch value: " + lib);
+
             }
             if (cmd.hasOption("o")) {
                 //get file name
+                String lib = cmd.getOptionValue("o");
                 //send output to provided file and standard output
-                System.out.println("Output value: " + args[0]);
+                System.out.println("Output value: " + lib);
             }
-        }catch (ParseException exp) {
+        } catch (ParseException exp) {
             //oops, something went wrong
             System.err.println("Parsing failed. Reason: " + exp.getMessage());
         }
